@@ -1,6 +1,6 @@
 title:            DGon
 description:      "Hungry for knowledge"
-logo:             omikron.png
+logo:             octocat1.png
 disqus_shortname: dgon-jd
 # Assign a default image for your site's header and footer
 default_bg:       default_bg1.jpg
@@ -26,21 +26,22 @@ owner:
   avatar:         hmfaysal.jpg
   email:          dmigonvl@gmail.com
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
-  description:    Hossain Mohammad Faysal is an Electrical Engineer and a Mathematician based in Doha, Qatar. His interests are anything that&#8217;s related to math, from math itself to programming languages to music to physics to engineering to philosophy.
+  # description:    Hossain Mohammad Faysal is an Electrical Engineer and a Mathematician based in Doha, Qatar. His interests are anything that&#8217;s related to math, from math itself to programming languages to music to physics to engineering to philosophy.
+  description:
   # Social networking links used in footer. Update and remove as you like.
-  # twitter:        hmfaysal
+  twitter:        dg0n_dp
   # facebook:       hmfaysal
-  # github:         hmfaysal
+  github:         dgon-jd
   # stackexchange:  https://stackexchange.com/users/3402032/hossain-mohd-faysal
-  # linkedin:       https://www.linkedin.com/pub/firstname-lastname/12/345/678
-  instagram:
+  linkedin:       https://ua.linkedin.com/in/gdmitrydpua/
+  instagram:       johnnyhammeth
   flickr:
   tumblr:
   # For Google Authorship https://plus.google.com/authorship
-  google_plus:    https://plus.google.com/u/0/102602916593522619858
+  google_plus:    https://plus.google.com/u/0/116304456686843976678/
 
 # Analytics and webmaster tools stuff goes here
-google_analytics:   UA-39365944-7
+google_analytics:
 google_verify:
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
 bing_verify:
@@ -62,7 +63,7 @@ links:
     url: /hossain-mohd-faysal
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    America/New_York
+timezone:    Europe/Zaporozhye
 future:      true
 highlighter: pygments
 markdown:    kramdown
@@ -88,8 +89,8 @@ kramdown:
 
 prose:
   rooturl: '_posts'
-  siteurl: 'http://hmfaysal.github.io/'
-  relativeLinks: 'http://hmfaysal.github.io/links.jsonp'
+  siteurl: 'http://dgon-jd.github.io/'
+  relativeLinks: 'http://dgon-jd.github.io/links.jsonp'
   media: 'images'
   metadata:
     _posts:
