@@ -1,7 +1,7 @@
 ---
 layout: post
 published: true
-title: ""
+title: (BASH 1) Shell. Типы Shell.
 mathjax: false
 featured: false
 comments: false
