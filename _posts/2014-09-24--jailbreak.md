@@ -12,8 +12,6 @@ headline: Be curious
 description: Defend your App.
 ---
 
-![cover](http://media.idownloadblog.com/wp-content/uploads/2013/01/evasi0n-hero-1024x357.png)
-
 Большинство reverse engineering действий проводятся на jailbroken девайсах. Что это такое, можно почитать [здесь](http://uk.wikipedia.org/wiki/Jailbreak). Если вы дорожите своим кодом/идеей/ресурсами, то один из вариантов пересечь разборку вашего приложения на мелкие детали - вставить проверку на Jailbreak.
 
 Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:
