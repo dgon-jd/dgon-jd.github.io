@@ -18,7 +18,7 @@ description: Defend your App.
 
 Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:
 
-{% raw %}
+```objective-c
 NSError *error;
 NSString *jailTest = @"Jailbreak time!";\
 [jailTest writeToFile:@"/private/ test_jail.txt" 
@@ -27,10 +27,10 @@ NSString *jailTest = @"Jailbreak time!";\
 if(error==nil) {
 	...
 }
-{% endraw %}
+```
 
 Можно проверить, получится ли у shell'a создать дочерний процесс. Без джеилбрейка должны получить ошибку:
-{% raw %}
+```objective-c
 int result = fork();
 if (!result) exit(0);
 if (result >= 0) return isJail;
@@ -38,22 +38,22 @@ if (result >= 0) return isJail;
 if (system(0))  {
 ...
 }
-{% endraw %}
+```
 
 Проверим на наличие Cydia. Почти на всех jailbroken девайсах стоит это чудо:
 
-{% raw %}
+```objective-c
 NSURL *cydiaFakeURL = [NSURL URLWithString: @"cydia://package/com.fake.package"];
 if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 	return isJail;
 } else {
 	return noJail;
 }
-{% endraw %}
+```
 
 Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:
 
-{% raw %}
+```objective-c
 NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
 									@"/Applications/RockApp.app",
 									@"/Applications/Icy.app",
@@ -68,7 +68,7 @@ for (NSString *string in jailbrokenPaths) {
 if ([[NSFileManager defaultManager] fileExistsAtPath:string]) {
      ...
 }
-{% endraw %}
+```
 
 Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот [здесь].(http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad)
 
