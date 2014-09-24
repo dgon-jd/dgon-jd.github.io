@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: "First Commit!"
 mathjax: false
 featured: false
