@@ -16,7 +16,7 @@ description: Defend your App.
 
 Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:
 
-```objective-c
+```ruby
 NSError *error;
 NSString *jailTest = @"Jailbreak time!";\
 [jailTest writeToFile:@"/private/ test_jail.txt" 
@@ -28,7 +28,7 @@ if(error==nil) {
 ```
 
 Можно проверить, получится ли у shell'a создать дочерний процесс. Без джеилбрейка должны получить ошибку:
-```objective-c
+```ruby
 int result = fork();
 if (!result) exit(0);
 if (result >= 0) return isJail;
@@ -40,7 +40,7 @@ if (system(0))  {
 
 Проверим на наличие Cydia. Почти на всех jailbroken девайсах стоит это чудо:
 
-```objective-c
+```ruby
 NSURL *cydiaFakeURL = [NSURL URLWithString: @"cydia://package/com.fake.package"];
 if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 	return isJail;
@@ -51,7 +51,7 @@ if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 
 Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:
 
-```objective-c
+```ruby
 NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
 									@"/Applications/RockApp.app",
 									@"/Applications/Icy.app",
@@ -60,8 +60,7 @@ NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
                                     @"/private/var/lib/apt",
                                     @"/private/var/lib/cydia",
                                     @"/usr/libexec/sftp-server”,
-                                    @"/private/var/stash"];
-                                    
+                                    @"/private/var/stash"]; 
 for (NSString *string in jailbrokenPaths) {
 if ([[NSFileManager defaultManager] fileExistsAtPath:string]) {
      ...
