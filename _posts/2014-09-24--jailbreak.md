@@ -53,7 +53,7 @@ if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 
 Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:
 
-{% raw $}
+{% highligt obj-c $}
 NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
 									@"/Applications/RockApp.app",
 									@"/Applications/Icy.app",
@@ -68,7 +68,7 @@ for (NSString *string in jailbrokenPaths) {
 if ([[NSFileManager defaultManager] fileExistsAtPath:string]) {
      ...
 }
-{% endraw %}
+{% endhighlight %}
 
 Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот [здесь].(http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad)
 
