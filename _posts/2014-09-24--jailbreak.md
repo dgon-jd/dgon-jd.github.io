@@ -12,38 +12,49 @@ headline: Be curious
 description: Defend your App.
 ---
 
-{<1>}![cover](http://media.idownloadblog.com/wp-content/uploads/2013/01/evasi0n-hero-1024x357.png)
+![cover](http://media.idownloadblog.com/wp-content/uploads/2013/01/evasi0n-hero-1024x357.png)
 
 Большинство reverse engineering действий проводятся на jailbroken девайсах. Что это такое, можно почитать [здесь](http://uk.wikipedia.org/wiki/Jailbreak). Если вы дорожите своим кодом/идеей/ресурсами, то один из вариантов пересечь разборку вашего приложения на мелкие детали - вставить проверку на Jailbreak.
 
 Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:
 
-<code>NSError *error;
+{% raw $}
+NSError *error;
 NSString *jailTest = @"Jailbreak time!";\
-[jailTest writeToFile:@"/private/ test_jail.txt" atomically:YES encoding:NSUTF8StringEncoding error:&error];
-if(error==nil) {...
+[jailTest writeToFile:@"/private/ test_jail.txt" 
+			atomically:YES 
+            encoding:NSUTF8StringEncoding error:&error];
+if(error==nil) {
+	...
 }
-</code>
+{% endraw %}
 
 Можно проверить, получится ли у shell'a создать дочерний процесс. Без джеилбрейка должны получить ошибку:
-<code>int result = fork();
+{% raw $}
+int result = fork();
 if (!result) exit(0);
 if (result >= 0) return isJail;
-return noJail;
+	return noJail;
 if (system(0))  {
 ...
-}</code>
+}
+{% endraw %}
 
 Проверим на наличие Cydia. Почти на всех jailbroken девайсах стоит это чудо:
-<code>NSURL *cydiaFakeURL = [NSURL URLWithString: @"cydia://package/com.fake.package"];
+
+{% raw $}
+NSURL *cydiaFakeURL = [NSURL URLWithString: @"cydia://package/com.fake.package"];
 if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 	return isJail;
 } else {
 	return noJail;
-}</code>
+}
+{% endraw %}
 
 Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:
-<code>NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
+
+{% raw $}
+NSArray *jailbrokenPaths = @[@"/Applications/Cydia.app",
 									@"/Applications/RockApp.app",
 									@"/Applications/Icy.app",
 									@"/usr/sbin/sshd",
@@ -56,8 +67,9 @@ if ([[UIApplication sharedApplication] canOpenURL:cydiaFakeURL]) {
 for (NSString *string in jailbrokenPaths) {
 if ([[NSFileManager defaultManager] fileExistsAtPath:string]) {
      ...
-}</code>
+}
+{% endraw %}
 
-Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот здесь - http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad
+Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот [здесь].(http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad)
 
 После чего, зная, что девайс хкера взломаный и есть рут доступ и больше нет sandbox режима для приложения - при должном энтузиазме, можете сами делать с ним все, что хотите, как и с информацией, которую можно достать.
