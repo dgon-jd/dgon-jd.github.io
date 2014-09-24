@@ -3,12 +3,13 @@ layout: post
 type: quote
 title: "Sample Quotation Post"
 description: See the rest of the post about Albert Einstein
-headline: 
+headline:
 category: Sample-Posts
 tags: [sample post, quotation]
 imagefeature: albert-einstein-2068-hd-wallpapers.jpg
 comments: true
-mathjax: 
+mathjax:
+published: false
 ---
 >&quot;Any intelligent fool can make things bigger, more complex, and more violent. It takes a touch of genius - and a lot of courage - to move in the opposite direction.&quot;
 ><small><cite title="Albert Einstein">Albert Einstein</cite></small>
@@ -19,14 +20,14 @@ HMFAYSAL OMEGA theme now supports Quotation posting, made famous by some premium
     layout: post
     type: quote
     title: "Sample Quotation Post"
-    description: 
-    headline: 
+    description:
+    headline:
     modified: YYYY-MM-DD
     category: quote
-    image: 
-      feature: 
+    image:
+      feature:
     comments: true
-    mathjax: 
+    mathjax:
     ---
 
 Or you can simply run the rake task command `rake newquote["Some Quotation Title"]` to generate a skeleton quotation post. Include the intended quotation in Markdown format in your post. A sample quotation in markdown looks like the following:

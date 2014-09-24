@@ -7,7 +7,7 @@ featured: false
 comments: false
 description: "Let's Fire up!"
 headline: "Hello Github! Bye-bye Ghost!"
-categories: 
+categories:
   - personal
 tags: "blogging, jekyll"
 ---

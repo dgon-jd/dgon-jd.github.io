@@ -2,19 +2,20 @@
 layout: post
 title: "Sample Mathjax Post"
 description: "MathJax Test article"
-headline: 
+headline:
 category: Sample-Posts
 tags: [sample post, mathjax]
 imagefeature: picture-26.jpg
 comments: true
 mathjax: true
+published: false
 ---
 HMFAYSAL OMEGA theme supports both inline and displayed equations via MathJax.  The theme keeps MathJax turned off by default to improve page load speed. MathJax can be turned on from the post's Front Matter YAML. Simply put the following statement in the post's Front Matter YAML:
 
 	mathjax: true
 
 <br>
-Here are some examples collected from the MathJax page: 
+Here are some examples collected from the MathJax page:
 <br>
 
 **The Lorenz Equations**
@@ -72,7 +73,7 @@ $$\begin{align}
   \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
   \nabla \cdot \vec{\mathbf{B}} & = 0
 \end{align}$$  
-  
+
 <br>
 
 Finally, while display equations look good for a page of samples, the

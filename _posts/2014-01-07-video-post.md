@@ -9,6 +9,7 @@ video: http://www.youtube.com/watch?v=CQJByFp7H38
 imagefeature: picture-21.jpg
 comments: true
 share: true
+published: false
 ---
 Video embeds are responsive and scale with the width of the main content block with the help of [FitVids](http://fitvidsjs.com/).
 

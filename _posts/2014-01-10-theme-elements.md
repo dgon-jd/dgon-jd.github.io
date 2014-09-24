@@ -8,6 +8,7 @@ tags: [Jekyll, HMFAYSAL OMEGA]
 imagefeature: picture-38.jpg
 comments: true
 mathjax: true
+published: false
 ---
 I've put together a little post to introduce you to the HMFAYSAL OMEGA theme and get you started with Markdown. Go ahead and edit this post to get going and learn how it all works!
 
@@ -23,7 +24,7 @@ I've put together a little post to introduce you to the HMFAYSAL OMEGA theme and
 
 # ELEMENTS
 
-Writing in markdown is really easy. In any editor like notepad, you simply write as you normally would. Where appropriate, you can use formatting shortcuts to style your content. 
+Writing in markdown is really easy. In any editor like notepad, you simply write as you normally would. Where appropriate, you can use formatting shortcuts to style your content.
 
 ## LISTS
 
@@ -46,7 +47,7 @@ Want to link to a source? No problem. If you put the url in this format, like `[
 
 ## WHAT ABOUT IMAGES? ##
 
-Images work too! And they are responsive! Already know the URL of the image you want to include in your article? Images are responsive and uses lightbox. 
+Images work too! And they are responsive! Already know the URL of the image you want to include in your article? Images are responsive and uses lightbox.
 
 <figure>
 	<a href="{{ site.url }}/images/gallery1/photo (16).jpg"><img src="{{ site.url }}/images/gallery1/photo (16).jpg"></a>
@@ -154,7 +155,7 @@ Throw 4 or more dashes down on any new line and you've got yourself a fancy new 
 
 <div class="col-md-6">  
 <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rutrum velit quis magna iaculis lacinia. Aenean sed nisi condimentum, placerat eros sit amet, lacinia purus. Ut sed euismod mauris. Morbi vitae diam quis diam egestas scelerisque a a ipsum.</p>  
-</div> 
+</div>
 <br>  
 
 <div class="col-md-4">  
@@ -167,7 +168,7 @@ Throw 4 or more dashes down on any new line and you've got yourself a fancy new 
 
 <div class="col-md-4">  
 <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rutrum velit quis magna iaculis lacinia. Aenean sed nisi condimentum, placerat eros sit amet, lacinia purus. Ut sed euismod mauris. Morbi vitae diam quis diam egestas scelerisque a a ipsum.</p>  
-</div> 
+</div>
 <br>  
 
 <div class="col-md-3">  
