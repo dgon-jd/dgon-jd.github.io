@@ -1,7 +1,7 @@
 ---
 layout: post
 published: true
-title: (BASH 1) Shell. Типы Shell.
+title: (BASH 1) Shell. Shell types.
 mathjax: false
 featured: false
 comments: false
@@ -34,7 +34,7 @@ tags: "UNIX, bash, shell"
 
 Это список наиболее известных оболочек UNIX систем. Для тех, кому все же хочется увидеть список все существующих, включая Windows, и их сравнение, советую посетить https://en.wikipedia.org/wiki/Comparison_of_command_shells
 
-Список *shell'ов*, доступный на вашей машине можно посмотреть в файле /etc/shells:<p><code>cat /etc/shells</code></p>
+Список *shell'ов*, доступный на вашей машине можно посмотреть в файле /etc/shells:<code>cat /etc/shells</code>
 
 *Shellы* по умолчанию находятся в директории /bin.
 Изменить *shell* по умолчанию можно так:
