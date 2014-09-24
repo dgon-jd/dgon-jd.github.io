@@ -5,10 +5,11 @@ title: (BASH 1) Shell. Shell types.
 mathjax: false
 featured: false
 comments: false
-headline: First Part
+headline: BASH Line
 categories: 
   - interesting
 tags: "UNIX, bash, shell"
+description: First Part.
 ---
 
 <h2>Что за звери и сколько же их?</h2>
