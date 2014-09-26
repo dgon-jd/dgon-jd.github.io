@@ -5,6 +5,7 @@ title: Проверки на Jailbreak девайса.
 mathjax: false
 featured: false
 comments: false
+category: iosdevelopment
 ---
 
 ## Why?

@@ -149,8 +149,8 @@ prose:
           options:
             - name: "Personal"
               value: personal
-            - name: "Web-Development"
-              value: webdevelopment
+            - name: "iOS-Development"
+              value: iosdevelopment
             - name: "Interesting"
               value: interesting
             - name: "Status"
