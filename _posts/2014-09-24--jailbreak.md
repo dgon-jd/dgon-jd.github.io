@@ -5,7 +5,7 @@ title: Проверки на Jailbreak девайса.
 mathjax: false
 featured: false
 comments: false
-tags: "jailbreak, ios, ios app security"
+tags: jailbreak ios app security
 modified: "2014-09-26"
 ---
 
