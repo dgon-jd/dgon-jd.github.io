@@ -3,7 +3,7 @@ layout: post
 title: Syntax Highlighting Post
 description: Demo post displaying the various ways of highlighting code in Markdown.
 category: "Sample-Posts"
-tags: 
+tags:
   - sample post
   - code
   - highlighting
@@ -11,7 +11,7 @@ tags:
 imagefeature: "picture-29.jpg"
 comments: true
 share: true
-published: true
+published: false
 mathjax: false
 featured: false
 ---
