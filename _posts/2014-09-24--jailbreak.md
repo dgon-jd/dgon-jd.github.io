@@ -5,7 +5,7 @@ title: Проверки на Jailbreak девайса.
 mathjax: false
 featured: false
 comments: false
-category: iosdevelopment
+category: iOS-Development
 tags: jailbreak ios app security
 modified: "2014-09-26"
 ---
