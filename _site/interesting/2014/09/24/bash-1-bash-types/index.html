@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>(BASH 1) Shell. Shell types. &#8211; DGon_JD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hungry for knowledge.">
+    <meta name="author" content="Dmitry Goncharenko">
+    <meta name="keywords" content="interesting">
+    <link rel="canonical" href="http://dogn-jd.github.io/interesting/2014/09/24/bash-1-bash-types/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css" type="text/css">
+
+    <!-- Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="(BASH 1) Shell. Shell types.">
+    <meta property="og:description" content="First Part.">
+    <meta property="og:url" content="http://dogn-jd.github.io/interesting/2014/09/24/bash-1-bash-types/">
+    <meta property="og:site_name" content="DGon_JD">
+</head>
+
+<body class="">
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://dogn-jd.github.io" class="site-title">DGon_JD</a>
+      <nav class="site-nav right">
+        <a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+
+      </nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1 class="py2">(BASH 1) Shell. Shell types.</h1>
+  <span class="post-meta">Sep 24, 2014</span><br>
+  
+  <span class="post-meta small">3 minute read</span>
+</div>
+
+<article class="post-content">
+  <h2>Что за звери и сколько же их?</h2>
+
+<p>Каждый, кто работает с <a href="https://en.wikipedia.org/wiki/Unix">UNIX</a> системами и системами, базирующихся на UNIX так или иначе сталкивается с <em>bash</em> (или просто слышал). Что это такое? Менее известный как <em>Bourne Again shell</em>, (если просто) является одной из оболочек операционной системы (стандартная в <a href="https://en.wikipedia.org/wiki/GNU">GNU</a>). Если подробнее - дальше :)</p>
+
+<h2>Оболочка операционной системы (shell)</h2>
+
+<p>Стоит обратить внимание на то, что оболочка операционной системы (<em>shell</em>) является интерпретатором, т.е. <em>shell</em> скрипты интерпретируются, а не компилируются. В чем разница? В том, что <em>shell</em> считывает скрипт построчно, парсит и ищет полученные команды в системе, а компилятор конвертирует программу в машинный код, исполняемый файл, который потом может быть использован в <em>shell</em>.</p>
+
+<h3>Типы shell</h3>
+
+<ul>
+  <li><em>sh</em> или <em>Bourne Shell</em>: оригинальный <em>shell</em>, который до сих пор используется в UNIX системах. Это простейший <em>shell</em>, маленькая программка с небольшим количеством возможностей. Хотя эта оболочка не является стандартной в большинстве UNIX систем (в iOS все же стандартная, оп!), она все же осталась и может быть спокойно использована.</li>
+  <li><em>bash</em> or <em>Bourne Again shell</em>: Стандартная в GNU оболочка, как многие утверждают (intuitive and flexible), что чисто субъективно. Является по сути суперсетом над <em>Bourne shell (sh)</em>, сетом кучи плагинов и аддонов. Отсюда можно сделать вывод, что полностью совместима с <em>sh</em>, но никак не на оборот. Включает в себя так же настройки из <em>ksh</em>.</li>
+  <li><em>csh</em> или <em>C shell</em>: внезапно синтаксис оболочки напоминает Си.</li>
+  <li><em>tcsh</em> или <em>TENEX C shell</em>: суперсет над <em>C shell</em>, как утверждают:</li>
+</ul>
+
+<blockquote>
+  <p>enhancing user-friendliness and speed. That is why some also call it the Turbo C shell.</p>
+</blockquote>
+
+<ul>
+  <li><em>ksh</em> или <em>Korn shell</em>: Является суперсетом на <em>Bourne Shell</em>, созданным специально, чтобы вызвать одобрительные покачивания бородой у олд-фагов.</li>
+  <li><em>zsh</em> или <em>Z shell</em> - для тех, кому всегда мало и хочется управлять из shell не только собственной ОС, но и гаражом соседа, хомячком, и настроением жены. Является надстройкой над <em>Bourne Shell</em>, которая включает в себя множество надстроек из <em>ksh, tcsh, bash, немного магии</em>. (на правах рекламы)</li>
+</ul>
+
+<p>Это список наиболее известных оболочек UNIX систем. Для тех, кому все же хочется увидеть список все существующих, включая Windows, и их сравнение, советую посетить https://en.wikipedia.org/wiki/Comparison_of_command_shells</p>
+
+<p>Список <em>shell’ов</em>, доступный на вашей машине можно посмотреть в файле /etc/shells:<code>cat /etc/shells</code></p>
+
+<p><em>Shellы</em> по умолчанию находятся в директории /bin.
+Изменить <em>shell</em> по умолчанию можно так:</p>
+<p><code>chsh /bin/zsh</code></p>
+
+<h3>Что отличает BASH от SH?</h3>
+
+<p>На каждом из этих пунктов я остановлюсь подробнее в следующих статьях:</p>
+
+<ul>
+  <li><em>sh</em> является single-character shell command line; <em>bash</em> может работать как в single-character mode, так и в multi-character mode (<a href="https://www.gnu.org/software/bash/manual/html_node/Invoking-Bash.html">подробнее</a>). Т.е. параметры можно задавать не только одним символом;</li>
+  <li>Startup файлы (в следующей статье) - файлы, которые запускаются, при старте (и не только) <em>bash</em>;</li>
+  <li>Отличия в интерактивных и не интеракивных оболочках;</li>
+  <li>Наличие логических условий (унарные и бинарные выражения);</li>
+  <li>Арифметика;</li>
+  <li>Наличие alias - (назначаемых одно-словных псевдонимов, за которыми могут скрываться сложные команды);</li>
+  <li>Массивы;</li>
+  <li>Стэк дирректорий. Список недавно посещенных директорий;</li>
+  <li>Prompt (no comments);</li>
+  <li>The Restricted Shell - ограниченный мод, со множеством отключенных команд;</li>
+</ul>
+
+<p>Следующая статья будет посвящена <strong>startup</strong> файлам и процессу запуска <em>bash</em>.</p>
+
+<hr />
+<h4>Ссылки:</h4>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/UNIX">Что такое UNIX?</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/GNU">Что такое GNU?</a></li>
+  <li><a href="http://habrahabr.ru/post/47163/">Основы BASH 1</a></li>
+  <li><a href="http://habrahabr.ru/post/52871/">Основы BASH 2</a></li>
+  <li><a href="http://habrahabr.ru/post/221273/">Интересные приемы программирования на BASH</a></li>
+  <li><a href="http://habrahabr.ru/post/120198/">Вообще коротко</a></li>
+</ul>
+
+<p><a href="http://www.tldp.org/LDP/Bash-Beginners-Guide/Bash-Beginners-Guide.pdf">Много информации отсюда. Требует базовых знаний UNIX</a></p>
+
+<hr />
+<h4>Тогда зачем это все?</h4>
+
+<p>Потому что почти все статьи, которые я встречал, отвечают на вопросы: <strong>КАК</strong> и <strong>ЧТО</strong> надо сделать, чтобы решить какую-то проблему. Но совершенно не понятно <strong>КАК</strong> оно работает и <strong>ПОЧЕМУ</strong> оно так работает.</p>
+
+</article>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        Crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+        &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+      </small>
+    </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>

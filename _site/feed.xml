@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DGon_JD</title>
+    <description>Hungry for knowledge.</description>
+    <link>http://dogn-jd.github.io/</link>
+    <atom:link href="http://dogn-jd.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Проверки на Jailbreak девайса.</title>
+        <description>&lt;h2 id=&quot;why&quot;&gt;Why?&lt;/h2&gt;
+&lt;p&gt;Большинство reverse engineering действий проводятся на jailbroken девайсах. Что это такое, можно почитать &lt;a href=&quot;http://uk.wikipedia.org/wiki/Jailbreak&quot;&gt;здесь&lt;/a&gt;. Если вы дорожите своим кодом/идеей/ресурсами, то один из вариантов пересечь разборку вашего приложения на мелкие детали - вставить проверку на Jailbreak.&lt;/p&gt;
+
+&lt;h2 id=&quot;how&quot;&gt;How?&lt;/h2&gt;
+&lt;p&gt;Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;bp&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jailTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;Jailbreak time!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jailTest&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;writeTofile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;/private/test_jail&amp;quot;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;atomically&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;YES&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSUTF8StringEncoding&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;// Something wrong!&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Можно проверить, получится ли у shell’a создать дочерний процесс. Без джеилбрейка должны получить ошибку&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fork&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isJail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;noJail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//Something wrong!&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Проверим на наличие Cydia. Почти на всех jailbroken девайсах стоит это чудо:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cydiaFakeURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;URLWithString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;cydia://package/com.fake.package&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;canOpenURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cydiaFakeURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isJail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;noJail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;bp&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jailbrokenPaths&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;/Applications/Cydia.app&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/Applications/RockApp.app&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/Applications/Icy.app&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/usr/sbin/sshd&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/usr/bin/sshd&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/private/var/lib/apt&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/private/var/lib/cydia&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/usr/libexec/sftp-server”,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;@&amp;quot;/private/var/stash&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jailbrokenPaths&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSFileManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defaultManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;fileExistsAtPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот &lt;a href=&quot;http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad&quot;&gt;здесь&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;then&quot;&gt;Then?&lt;/h2&gt;
+
+&lt;p&gt;После чего, зная, что девайс хакера взломан, есть рут доступ и больше нет sandbox режима для приложения - при должном энтузиазме, можете сами делать с ним все, что хотите, как и с информацией, которую можно достать.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Sep 2014 00:00:00 +0300</pubDate>
+        <link>http://dogn-jd.github.io/ios-development/2014/09/24/jailbreak/</link>
+        <guid isPermaLink="true">http://dogn-jd.github.io/ios-development/2014/09/24/jailbreak/</guid>
+      </item>
+    
+      <item>
+        <title>(BASH 2) Startup файлы и способы запуска bash.</title>
+        <description>&lt;h2&gt;Процес запуска bash&lt;/h2&gt;
+
+&lt;p&gt;Было бы странно предполагать, что &lt;em&gt;bash&lt;/em&gt; запускается одинаково, статично и без кучи настроек как, например, при входе в систему, так и при простом открытии терминала. Или просто запускается без всего выше перечисленного. Почитав статьи с примерами, или пообщавшись с unixоидами, почти наверняка можно заметить, что у каждого терминал выглядит по-своему (даже если не брать возможное отличие shell). Каждый настраивает &lt;em&gt;sh&lt;/em&gt; как ему удобно, отображая нужную информацию в удобном виде, и все это делается в нескольких startup файлах. Подробнее о конфигурациях я напишу в другой статье, а лишь укажу какие из них считываются при каком запуске. Итак:&lt;/p&gt;
+
+&lt;h3&gt;Запуск интерактивного логин shell или с параметром ‘–login’&lt;/h3&gt;
+
+&lt;p&gt;Интерактивного - значит что вы можете вводить команды. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Q: Как узнать, является ли мой *shell* интерактивным?
+A: &amp;lt;code&amp;gt;echo $-&amp;lt;/code&amp;gt;.  Если в выводе есть &amp;lt;code&amp;gt;i&amp;lt;/code&amp;gt; - значит интерактивный
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Логин - значит, вы получите доступ к shell только после авторизации, например логином и паролем.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;‘~’ в начале пути означает, домашний каталог;
+&#39;/&#39; в начале пути означает, root каталог на диске системы;
+‘.’ - текущий каталог;
+‘.’ часто файлы, которые начинаются с точки являются “скрытыми”;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Startup файлы, которые считываются:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;/etc/profile (глобальные настройки, общие для всех пользователей);&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;~/.bash_profile, ~/.bash_login or ~/.profile: считывается первый существующий файл. Настройки индивидуальные для каждого пользователя. Стоит обратить внимание, что они лежат в домашней директории пользователя;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;~/.bash_logout перед logout. Тоже является индивидуальным для каждого пользователя.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Bash&lt;/em&gt; покажет, если в процессе считывания произошла ошибка, однако если этих фала не существует (они не обязательны), то bash продолжит искать следующий по цепочке.&lt;/p&gt;
+
+&lt;h3&gt;Запуск интерактивного shell без логина&lt;/h3&gt;
+
+&lt;p&gt;Как следует из описания, авторизироваться не нужно. Для примера: когда вы открываете, терминал с помощью иконки просто набрав &lt;code&gt;bash&lt;/code&gt; в текущем shell, то открывается именно non-login shell.&lt;/p&gt;
+
+&lt;p&gt;В этом случае настройки читаются из файла ~/.bashrc, который очень часто ссылается на знакомый нам ~/.bash_profile.
+&lt;code&gt;if [ -f ~/.bashrc ]; then . ~/.bashrc; fi&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3&gt;Запуск не интерактивной оболочки&lt;/h3&gt;
+
+&lt;p&gt;Все скрипты являются не интерактивными &lt;em&gt;shells&lt;/em&gt;. Они делают только то, для чего написаны и не могут выполнить работу, для которой не запрограммированы.&lt;/p&gt;
+
+&lt;p&gt;Настройки читаются из файла, который объявлен в глобальной переменной &lt;code&gt;BASH_ENV&lt;/code&gt; (про переменные чуть позже).&lt;/p&gt;
+
+&lt;p&gt;Кстати, на заметку:
+&amp;gt;PATH is not used to search for this file, so if you want to use it, best refer to it by giving the full path and file name.&lt;/p&gt;
+
+&lt;h3&gt;Запуск с помощью *sh*&lt;/h3&gt;
+
+&lt;p&gt;Отдавая дань уважения &lt;em&gt;sh&lt;/em&gt;, на которой он построен, и ,собственно, потому что он на &lt;em&gt;sh&lt;/em&gt; построен, &lt;em&gt;bash&lt;/em&gt; старается (очень) работать как &lt;em&gt;sh&lt;/em&gt;, но и отвечая при этом стандартам &lt;a href=&quot;https://en.wikipedia.org/wiki/POSIX&quot;&gt;POSIX&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Читаются файлы:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;/etc/profile&lt;/li&gt;
+  &lt;li&gt;~/.profile&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;При запуске в интерактивном режиме, переменная &lt;code&gt;ENV&lt;/code&gt; может указывать на дополнительную startup информацию.&lt;/p&gt;
+
+&lt;h3&gt;Запуск в POSIX mode&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Сейчас может быть не понятно! Начинающему пользователю не нужно знать это на данном этапе. Просто запомните, что такое есть.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Эту опцию можно включить, используя стандартный &lt;code&gt;set&lt;/code&gt;:
+&lt;code&gt;set -o posix&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;или вызвав bash с параметром &lt;code&gt;--posix&lt;/code&gt;.
+&lt;em&gt;Bash&lt;/em&gt; будет вести себя (честно!) как можно ближе к стандартам POSIX. Этого же можно добиться, присвоив переменной &lt;code&gt;POSIXLY_CORRECT&lt;/code&gt; значение &lt;code&gt;АГА&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;При запуске читается файл, который находится по пути описанному в переменной &lt;code&gt;ENV&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3&gt;Запуск удаленно&lt;/h3&gt;
+
+&lt;p&gt;При запуске с помощью &lt;code&gt;rshd&lt;/code&gt; читается файл настроек ~/.bashrc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Лучше не использовать rlogin, telnet, rsh, rcp, потму что данные, передаваемые с их помощью являются не зашифрованными
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Выполнение команд&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Bash&lt;/em&gt; определяет тип программы, которая должна быть выполнена. Обычно программы - это системные команды, которые существуют в скомпилированой форме в системе. Когда такая программа запускается, создается новый &lt;strong&gt;процесс&lt;/strong&gt;, т.к. &lt;em&gt;bash&lt;/em&gt; делает копию самого себя. Этот процесс-наследник имеет ту же среду выполнения, что и наследник, но с другим processID. Этот процесс называется &lt;em&gt;forking&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;После того, как форк был создан, адрессное пространство нового процесса переписывается новой инфрормацией из нужной команды. Это и происходит во время вызова команды &lt;code&gt;exec&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Процесс &lt;em&gt;fork-and-exec&lt;/em&gt; заменяет старую команду на новую, сохраняя при этом идентичую среду выполениня, включая конфигурации устройств ввода и вывода, переменные и приоритеты. Этот меанизм используется для создания всех процессов в UNIX. Даже первый процесс, &lt;em&gt;init&lt;/em&gt;, который имеет process ID 1 форкается в во вреся загрузки в так называемой &lt;em&gt;bootstrapping&lt;/em&gt; процедуре.&lt;/p&gt;
+
+&lt;h3&gt;Built-in комманды&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Shell&lt;/em&gt; содержит в себе так называемые built-in или “встроенные” команды. Когда такая команда используется первым словом в веденной пользователем простой команде, &lt;em&gt;shell&lt;/em&gt; выполняет команду “в себе”, без &lt;em&gt;forkа&lt;/em&gt;, т.е без создания нового процесса.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Bash&lt;/em&gt; поддерживает три типа built-in команд:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Sh&lt;/em&gt; built-in команды:&lt;code&gt;
+ :, ., break, cd, continue, eval, exec, exit, export, getopts, hash, pwd, readonly, return, set, shift, test, [, times, trap, umask and unset&lt;/code&gt;.;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Bash&lt;/em&gt; built-in команды:&lt;code&gt;alias, bind, builtin, command, declare, echo, enable, help, let, local, logout, printf, read, shopt, type, typeset, ulimit and unalias.&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Специальные built-in команды. Отличаются от других при запуске &lt;em&gt;bash&lt;/em&gt; в POSIX-mode тем, что:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+ 	* Эти команды ищутся интерпретатором перед остальными built-in командами;
+ 	* Если специальная built-in команда возвращает ошибку, то не интерактивная оболочка закрывается;
+&lt;pre&gt;&lt;code&gt; * Операторы присваивания перед командой остаются в силе в среде оболочки после завершения работы этой команды.
+
+The POSIX special built-ins:&amp;lt;code&amp;gt;, ., break, continue, eval, exec, exit, export, readonly, return, set, shift, trap and unset&amp;lt;/code&amp;gt;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Запуск скриптов&lt;/h3&gt;
+
+&lt;p&gt;Если запущенная программа является &lt;em&gt;shell&lt;/em&gt; скриптом, &lt;em&gt;bash&lt;/em&gt; создаст новый &lt;em&gt;bash&lt;/em&gt; процесс использя &lt;em&gt;fork&lt;/em&gt; метод. Это &lt;em&gt;subshell&lt;/em&gt; будет читать построчно файл скрипта. Команды в каждой строке после прочтения интерпретируются и выполняются так, как и в случае простого ввода с клавиатуры.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Запустить скрипт, не создавая процесс можно с помощью команды &lt;code&gt;source&lt;/code&gt;. Она является чем-то вроде &lt;code&gt;.&lt;/code&gt; для shell. Тогда скрипт выполнится в текущем &lt;em&gt;shell&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Пока &lt;em&gt;subshell&lt;/em&gt; читает скрипт построчно, родительский shell ждет окончания этого процесса. Если &lt;em&gt;subshell&lt;/em&gt; достигнул конца файла и не осталось непрочтенных строк, то он закрывается, возвращая родителю контроль, а родитель выводит новый &lt;em&gt;prompt&lt;/em&gt;. &lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;Ну а что такое &lt;strong&gt;prompt&lt;/strong&gt; и как его настраивать, я расскажу в следующей статье.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3&gt;Ссылки&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/bash&quot;&gt;Про bash (Arch Documentation. Куда же без нее)&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Sep 2014 00:00:00 +0300</pubDate>
+        <link>http://dogn-jd.github.io/interesting/2014/09/24/bash-2-startup-bash/</link>
+        <guid isPermaLink="true">http://dogn-jd.github.io/interesting/2014/09/24/bash-2-startup-bash/</guid>
+      </item>
+    
+      <item>
+        <title>(BASH 1) Shell. Shell types.</title>
+        <description>&lt;h2&gt;Что за звери и сколько же их?&lt;/h2&gt;
+
+&lt;p&gt;Каждый, кто работает с &lt;a href=&quot;https://en.wikipedia.org/wiki/Unix&quot;&gt;UNIX&lt;/a&gt; системами и системами, базирующихся на UNIX так или иначе сталкивается с &lt;em&gt;bash&lt;/em&gt; (или просто слышал). Что это такое? Менее известный как &lt;em&gt;Bourne Again shell&lt;/em&gt;, (если просто) является одной из оболочек операционной системы (стандартная в &lt;a href=&quot;https://en.wikipedia.org/wiki/GNU&quot;&gt;GNU&lt;/a&gt;). Если подробнее - дальше :)&lt;/p&gt;
+
+&lt;h2&gt;Оболочка операционной системы (shell)&lt;/h2&gt;
+
+&lt;p&gt;Стоит обратить внимание на то, что оболочка операционной системы (&lt;em&gt;shell&lt;/em&gt;) является интерпретатором, т.е. &lt;em&gt;shell&lt;/em&gt; скрипты интерпретируются, а не компилируются. В чем разница? В том, что &lt;em&gt;shell&lt;/em&gt; считывает скрипт построчно, парсит и ищет полученные команды в системе, а компилятор конвертирует программу в машинный код, исполняемый файл, который потом может быть использован в &lt;em&gt;shell&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Типы shell&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;sh&lt;/em&gt; или &lt;em&gt;Bourne Shell&lt;/em&gt;: оригинальный &lt;em&gt;shell&lt;/em&gt;, который до сих пор используется в UNIX системах. Это простейший &lt;em&gt;shell&lt;/em&gt;, маленькая программка с небольшим количеством возможностей. Хотя эта оболочка не является стандартной в большинстве UNIX систем (в iOS все же стандартная, оп!), она все же осталась и может быть спокойно использована.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;bash&lt;/em&gt; or &lt;em&gt;Bourne Again shell&lt;/em&gt;: Стандартная в GNU оболочка, как многие утверждают (intuitive and flexible), что чисто субъективно. Является по сути суперсетом над &lt;em&gt;Bourne shell (sh)&lt;/em&gt;, сетом кучи плагинов и аддонов. Отсюда можно сделать вывод, что полностью совместима с &lt;em&gt;sh&lt;/em&gt;, но никак не на оборот. Включает в себя так же настройки из &lt;em&gt;ksh&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;csh&lt;/em&gt; или &lt;em&gt;C shell&lt;/em&gt;: внезапно синтаксис оболочки напоминает Си.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;tcsh&lt;/em&gt; или &lt;em&gt;TENEX C shell&lt;/em&gt;: суперсет над &lt;em&gt;C shell&lt;/em&gt;, как утверждают:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;enhancing user-friendliness and speed. That is why some also call it the Turbo C shell.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;ksh&lt;/em&gt; или &lt;em&gt;Korn shell&lt;/em&gt;: Является суперсетом на &lt;em&gt;Bourne Shell&lt;/em&gt;, созданным специально, чтобы вызвать одобрительные покачивания бородой у олд-фагов.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;zsh&lt;/em&gt; или &lt;em&gt;Z shell&lt;/em&gt; - для тех, кому всегда мало и хочется управлять из shell не только собственной ОС, но и гаражом соседа, хомячком, и настроением жены. Является надстройкой над &lt;em&gt;Bourne Shell&lt;/em&gt;, которая включает в себя множество надстроек из &lt;em&gt;ksh, tcsh, bash, немного магии&lt;/em&gt;. (на правах рекламы)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Это список наиболее известных оболочек UNIX систем. Для тех, кому все же хочется увидеть список все существующих, включая Windows, и их сравнение, советую посетить https://en.wikipedia.org/wiki/Comparison_of_command_shells&lt;/p&gt;
+
+&lt;p&gt;Список &lt;em&gt;shell’ов&lt;/em&gt;, доступный на вашей машине можно посмотреть в файле /etc/shells:&lt;code&gt;cat /etc/shells&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Shellы&lt;/em&gt; по умолчанию находятся в директории /bin.
+Изменить &lt;em&gt;shell&lt;/em&gt; по умолчанию можно так:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;chsh /bin/zsh&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3&gt;Что отличает BASH от SH?&lt;/h3&gt;
+
+&lt;p&gt;На каждом из этих пунктов я остановлюсь подробнее в следующих статьях:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;sh&lt;/em&gt; является single-character shell command line; &lt;em&gt;bash&lt;/em&gt; может работать как в single-character mode, так и в multi-character mode (&lt;a href=&quot;https://www.gnu.org/software/bash/manual/html_node/Invoking-Bash.html&quot;&gt;подробнее&lt;/a&gt;). Т.е. параметры можно задавать не только одним символом;&lt;/li&gt;
+  &lt;li&gt;Startup файлы (в следующей статье) - файлы, которые запускаются, при старте (и не только) &lt;em&gt;bash&lt;/em&gt;;&lt;/li&gt;
+  &lt;li&gt;Отличия в интерактивных и не интеракивных оболочках;&lt;/li&gt;
+  &lt;li&gt;Наличие логических условий (унарные и бинарные выражения);&lt;/li&gt;
+  &lt;li&gt;Арифметика;&lt;/li&gt;
+  &lt;li&gt;Наличие alias - (назначаемых одно-словных псевдонимов, за которыми могут скрываться сложные команды);&lt;/li&gt;
+  &lt;li&gt;Массивы;&lt;/li&gt;
+  &lt;li&gt;Стэк дирректорий. Список недавно посещенных директорий;&lt;/li&gt;
+  &lt;li&gt;Prompt (no comments);&lt;/li&gt;
+  &lt;li&gt;The Restricted Shell - ограниченный мод, со множеством отключенных команд;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Следующая статья будет посвящена &lt;strong&gt;startup&lt;/strong&gt; файлам и процессу запуска &lt;em&gt;bash&lt;/em&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h4&gt;Ссылки:&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/UNIX&quot;&gt;Что такое UNIX?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/GNU&quot;&gt;Что такое GNU?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/47163/&quot;&gt;Основы BASH 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/52871/&quot;&gt;Основы BASH 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/221273/&quot;&gt;Интересные приемы программирования на BASH&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/120198/&quot;&gt;Вообще коротко&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.tldp.org/LDP/Bash-Beginners-Guide/Bash-Beginners-Guide.pdf&quot;&gt;Много информации отсюда. Требует базовых знаний UNIX&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h4&gt;Тогда зачем это все?&lt;/h4&gt;
+
+&lt;p&gt;Потому что почти все статьи, которые я встречал, отвечают на вопросы: &lt;strong&gt;КАК&lt;/strong&gt; и &lt;strong&gt;ЧТО&lt;/strong&gt; надо сделать, чтобы решить какую-то проблему. Но совершенно не понятно &lt;strong&gt;КАК&lt;/strong&gt; оно работает и &lt;strong&gt;ПОЧЕМУ&lt;/strong&gt; оно так работает.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Sep 2014 00:00:00 +0300</pubDate>
+        <link>http://dogn-jd.github.io/interesting/2014/09/24/bash-1-bash-types/</link>
+        <guid isPermaLink="true">http://dogn-jd.github.io/interesting/2014/09/24/bash-1-bash-types/</guid>
+      </item>
+    
+  </channel>
+</rss>

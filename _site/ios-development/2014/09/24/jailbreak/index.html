@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Проверки на Jailbreak девайса. &#8211; DGon_JD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hungry for knowledge.">
+    <meta name="author" content="Dmitry Goncharenko">
+    <meta name="keywords" content="ios-development">
+    <link rel="canonical" href="http://dogn-jd.github.io/ios-development/2014/09/24/jailbreak/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css" type="text/css">
+
+    <!-- Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Проверки на Jailbreak девайса.">
+    <meta property="og:description" content="Hungry for knowledge.">
+    <meta property="og:url" content="http://dogn-jd.github.io/ios-development/2014/09/24/jailbreak/">
+    <meta property="og:site_name" content="DGon_JD">
+</head>
+
+<body class="">
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://dogn-jd.github.io" class="site-title">DGon_JD</a>
+      <nav class="site-nav right">
+        <a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+
+      </nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1 class="py2">Проверки на Jailbreak девайса.</h1>
+  <span class="post-meta">Sep 24, 2014</span><br>
+  
+  <span class="post-meta small">2 minute read</span>
+</div>
+
+<article class="post-content">
+  <h2 id="why">Why?</h2>
+<p>Большинство reverse engineering действий проводятся на jailbroken девайсах. Что это такое, можно почитать <a href="http://uk.wikipedia.org/wiki/Jailbreak">здесь</a>. Если вы дорожите своим кодом/идеей/ресурсами, то один из вариантов пересечь разборку вашего приложения на мелкие детали - вставить проверку на Jailbreak.</p>
+
+<h2 id="how">How?</h2>
+<p>Прежде всего стоит попробовать создать файл в какой-нибудь директории, доступа в которую у нас быть не должно:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+	<span class="bp">NSString</span> <span class="o">*</span><span class="n">jailTest</span> <span class="o">=</span> <span class="s">@&quot;Jailbreak time!&quot;</span><span class="p">;</span>
+	<span class="p">[</span><span class="n">jailTest</span> <span class="nl">writeTofile</span><span class="p">:</span><span class="s">@&quot;/private/test_jail&quot;</span> <span class="nl">atomically</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Something wrong!</span>
+	<span class="p">}</span></code></pre></div>
+
+<p>Можно проверить, получится ли у shell’a создать дочерний процесс. Без джеилбрейка должны получить ошибку</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">isJail</span><span class="p">;</span>
+<span class="k">return</span> <span class="n">noJail</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">system</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="p">{</span>
+	<span class="c1">//Something wrong!</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Проверим на наличие Cydia. Почти на всех jailbroken девайсах стоит это чудо:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="bp">NSURL</span> <span class="o">*</span><span class="n">cydiaFakeURL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span> <span class="s">@&quot;cydia://package/com.fake.package&quot;</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">([[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">canOpenURL</span><span class="p">:</span><span class="n">cydiaFakeURL</span><span class="p">])</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">isJail</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">noJail</span><span class="p">;</span></code></pre></div>
+
+<p>Еще одна дополнительная проверка - наличие самых известных и нужных для реверса приложений:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="bp">NSArray</span> <span class="o">*</span><span class="n">jailbrokenPaths</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;/Applications/Cydia.app&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/Applications/RockApp.app&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/Applications/Icy.app&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/usr/sbin/sshd&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/usr/bin/sshd&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/private/var/lib/apt&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/private/var/lib/cydia&quot;</span><span class="p">,</span>
+<span class="s">@&quot;/usr/libexec/sftp-server”,</span>
+<span class="s">@&quot;/private/var/stash&quot;</span><span class="p">];</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">string</span> <span class="k">in</span> <span class="n">jailbrokenPaths</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">([[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">fileExistsAtPath</span><span class="p">:</span><span class="n">string</span><span class="p">])</span> <span class="p">{</span>
+		<span class="p">...</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Еще один извращенный способ - это проверить наличие процесса MobileCydia в теущих процессах девайса. Как приложение может получить список всех запущенных процессов хорошо описано вот <a href="http://stackoverflow.com/questions/4312613/can-we-retrieve-the-applications-currently-running-in-iphone-and-ipad">здесь</a>.</p>
+
+<h2 id="then">Then?</h2>
+
+<p>После чего, зная, что девайс хакера взломан, есть рут доступ и больше нет sandbox режима для приложения - при должном энтузиазме, можете сами делать с ним все, что хотите, как и с информацией, которую можно достать.</p>
+
+</article>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        Crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+        &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+      </small>
+    </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>

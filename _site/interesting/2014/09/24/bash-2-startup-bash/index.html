@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>(BASH 2) Startup файлы и способы запуска bash. &#8211; DGon_JD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hungry for knowledge.">
+    <meta name="author" content="Dmitry Goncharenko">
+    <meta name="keywords" content="interesting">
+    <link rel="canonical" href="http://dogn-jd.github.io/interesting/2014/09/24/bash-2-startup-bash/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css" type="text/css">
+
+    <!-- Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="(BASH 2) Startup файлы и способы запуска bash.">
+    <meta property="og:description" content="Second part">
+    <meta property="og:url" content="http://dogn-jd.github.io/interesting/2014/09/24/bash-2-startup-bash/">
+    <meta property="og:site_name" content="DGon_JD">
+</head>
+
+<body class="">
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://dogn-jd.github.io" class="site-title">DGon_JD</a>
+      <nav class="site-nav right">
+        <a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+
+      </nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1 class="py2">(BASH 2) Startup файлы и способы запуска bash.</h1>
+  <span class="post-meta">Sep 24, 2014</span><br>
+  
+  <span class="post-meta small">5 minute read</span>
+</div>
+
+<article class="post-content">
+  <h2>Процес запуска bash</h2>
+
+<p>Было бы странно предполагать, что <em>bash</em> запускается одинаково, статично и без кучи настроек как, например, при входе в систему, так и при простом открытии терминала. Или просто запускается без всего выше перечисленного. Почитав статьи с примерами, или пообщавшись с unixоидами, почти наверняка можно заметить, что у каждого терминал выглядит по-своему (даже если не брать возможное отличие shell). Каждый настраивает <em>sh</em> как ему удобно, отображая нужную информацию в удобном виде, и все это делается в нескольких startup файлах. Подробнее о конфигурациях я напишу в другой статье, а лишь укажу какие из них считываются при каком запуске. Итак:</p>
+
+<h3>Запуск интерактивного логин shell или с параметром ‘–login’</h3>
+
+<p>Интерактивного - значит что вы можете вводить команды. </p>
+
+<pre><code>Q: Как узнать, является ли мой *shell* интерактивным?
+A: &lt;code&gt;echo $-&lt;/code&gt;.  Если в выводе есть &lt;code&gt;i&lt;/code&gt; - значит интерактивный
+</code></pre>
+
+<p>Логин - значит, вы получите доступ к shell только после авторизации, например логином и паролем.</p>
+
+<pre><code>‘~’ в начале пути означает, домашний каталог;
+'/' в начале пути означает, root каталог на диске системы;
+‘.’ - текущий каталог;
+‘.’ часто файлы, которые начинаются с точки являются “скрытыми”;
+</code></pre>
+
+<p>Startup файлы, которые считываются:</p>
+
+<ul>
+  <li>
+    <p>/etc/profile (глобальные настройки, общие для всех пользователей);</p>
+  </li>
+  <li>
+    <p>~/.bash_profile, ~/.bash_login or ~/.profile: считывается первый существующий файл. Настройки индивидуальные для каждого пользователя. Стоит обратить внимание, что они лежат в домашней директории пользователя;</p>
+  </li>
+  <li>
+    <p>~/.bash_logout перед logout. Тоже является индивидуальным для каждого пользователя.</p>
+  </li>
+</ul>
+
+<p><em>Bash</em> покажет, если в процессе считывания произошла ошибка, однако если этих фала не существует (они не обязательны), то bash продолжит искать следующий по цепочке.</p>
+
+<h3>Запуск интерактивного shell без логина</h3>
+
+<p>Как следует из описания, авторизироваться не нужно. Для примера: когда вы открываете, терминал с помощью иконки просто набрав <code>bash</code> в текущем shell, то открывается именно non-login shell.</p>
+
+<p>В этом случае настройки читаются из файла ~/.bashrc, который очень часто ссылается на знакомый нам ~/.bash_profile.
+<code>if [ -f ~/.bashrc ]; then . ~/.bashrc; fi</code></p>
+
+<h3>Запуск не интерактивной оболочки</h3>
+
+<p>Все скрипты являются не интерактивными <em>shells</em>. Они делают только то, для чего написаны и не могут выполнить работу, для которой не запрограммированы.</p>
+
+<p>Настройки читаются из файла, который объявлен в глобальной переменной <code>BASH_ENV</code> (про переменные чуть позже).</p>
+
+<p>Кстати, на заметку:
+&gt;PATH is not used to search for this file, so if you want to use it, best refer to it by giving the full path and file name.</p>
+
+<h3>Запуск с помощью *sh*</h3>
+
+<p>Отдавая дань уважения <em>sh</em>, на которой он построен, и ,собственно, потому что он на <em>sh</em> построен, <em>bash</em> старается (очень) работать как <em>sh</em>, но и отвечая при этом стандартам <a href="https://en.wikipedia.org/wiki/POSIX">POSIX</a>.</p>
+
+<p>Читаются файлы:</p>
+
+<ul>
+  <li>/etc/profile</li>
+  <li>~/.profile</li>
+</ul>
+
+<p>При запуске в интерактивном режиме, переменная <code>ENV</code> может указывать на дополнительную startup информацию.</p>
+
+<h3>Запуск в POSIX mode</h3>
+
+<blockquote>
+  <p>Сейчас может быть не понятно! Начинающему пользователю не нужно знать это на данном этапе. Просто запомните, что такое есть.</p>
+</blockquote>
+
+<p>Эту опцию можно включить, используя стандартный <code>set</code>:
+<code>set -o posix</code></p>
+
+<p>или вызвав bash с параметром <code>--posix</code>.
+<em>Bash</em> будет вести себя (честно!) как можно ближе к стандартам POSIX. Этого же можно добиться, присвоив переменной <code>POSIXLY_CORRECT</code> значение <code>АГА</code></p>
+
+<p>При запуске читается файл, который находится по пути описанному в переменной <code>ENV</code></p>
+
+<h3>Запуск удаленно</h3>
+
+<p>При запуске с помощью <code>rshd</code> читается файл настроек ~/.bashrc</p>
+
+<pre><code>Лучше не использовать rlogin, telnet, rsh, rcp, потму что данные, передаваемые с их помощью являются не зашифрованными
+</code></pre>
+
+<h2>Выполнение команд</h2>
+
+<p><em>Bash</em> определяет тип программы, которая должна быть выполнена. Обычно программы - это системные команды, которые существуют в скомпилированой форме в системе. Когда такая программа запускается, создается новый <strong>процесс</strong>, т.к. <em>bash</em> делает копию самого себя. Этот процесс-наследник имеет ту же среду выполнения, что и наследник, но с другим processID. Этот процесс называется <em>forking</em>.</p>
+
+<p>После того, как форк был создан, адрессное пространство нового процесса переписывается новой инфрормацией из нужной команды. Это и происходит во время вызова команды <code>exec</code>.</p>
+
+<p>Процесс <em>fork-and-exec</em> заменяет старую команду на новую, сохраняя при этом идентичую среду выполениня, включая конфигурации устройств ввода и вывода, переменные и приоритеты. Этот меанизм используется для создания всех процессов в UNIX. Даже первый процесс, <em>init</em>, который имеет process ID 1 форкается в во вреся загрузки в так называемой <em>bootstrapping</em> процедуре.</p>
+
+<h3>Built-in комманды</h3>
+
+<p><em>Shell</em> содержит в себе так называемые built-in или “встроенные” команды. Когда такая команда используется первым словом в веденной пользователем простой команде, <em>shell</em> выполняет команду “в себе”, без <em>forkа</em>, т.е без создания нового процесса.</p>
+
+<p><em>Bash</em> поддерживает три типа built-in команд:</p>
+
+<ul>
+  <li>
+    <p><em>Sh</em> built-in команды:<code>
+ :, ., break, cd, continue, eval, exec, exit, export, getopts, hash, pwd, readonly, return, set, shift, test, [, times, trap, umask and unset</code>.;</p>
+  </li>
+  <li>
+    <p><em>Bash</em> built-in команды:<code>alias, bind, builtin, command, declare, echo, enable, help, let, local, logout, printf, read, shopt, type, typeset, ulimit and unalias.</code></p>
+  </li>
+  <li>
+    <p>Специальные built-in команды. Отличаются от других при запуске <em>bash</em> в POSIX-mode тем, что:</p>
+  </li>
+</ul>
+
+ 	* Эти команды ищутся интерпретатором перед остальными built-in командами;
+ 	* Если специальная built-in команда возвращает ошибку, то не интерактивная оболочка закрывается;
+<pre><code> * Операторы присваивания перед командой остаются в силе в среде оболочки после завершения работы этой команды.
+
+The POSIX special built-ins:&lt;code&gt;, ., break, continue, eval, exec, exit, export, readonly, return, set, shift, trap and unset&lt;/code&gt;;
+</code></pre>
+
+<h3>Запуск скриптов</h3>
+
+<p>Если запущенная программа является <em>shell</em> скриптом, <em>bash</em> создаст новый <em>bash</em> процесс использя <em>fork</em> метод. Это <em>subshell</em> будет читать построчно файл скрипта. Команды в каждой строке после прочтения интерпретируются и выполняются так, как и в случае простого ввода с клавиатуры.</p>
+
+<blockquote>
+  <p>Запустить скрипт, не создавая процесс можно с помощью команды <code>source</code>. Она является чем-то вроде <code>.</code> для shell. Тогда скрипт выполнится в текущем <em>shell</em></p>
+</blockquote>
+
+<p>Пока <em>subshell</em> читает скрипт построчно, родительский shell ждет окончания этого процесса. Если <em>subshell</em> достигнул конца файла и не осталось непрочтенных строк, то он закрывается, возвращая родителю контроль, а родитель выводит новый <em>prompt</em>. </p>
+
+<hr />
+<p>Ну а что такое <strong>prompt</strong> и как его настраивать, я расскажу в следующей статье.</p>
+
+<hr />
+<h3>Ссылки</h3>
+
+<p><a href="https://wiki.archlinux.org/index.php/bash">Про bash (Arch Documentation. Куда же без нее)</a></p>
+
+</article>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        Crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+        &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+      </small>
+    </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>
