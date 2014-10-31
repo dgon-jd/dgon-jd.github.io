@@ -4,7 +4,7 @@ email:       dmigonvl@gmail.com
 author:      Dmitry Goncharenko
 description: "Hungry for knowledge."
 baseurl:     ""
-url:         "http://dogn-jd.github.io"
+url:         "http://dgon-jd.github.io"
 
 # Google analytics
 google_analytics:
@@ -15,11 +15,11 @@ show_related_posts: false
 show_post_footers:  false
 
 # Social icons
-show_social_icons: false
-github_username:
-twitter_username:
+show_social_icons: true
+github_username: dgon-jd
+twitter_username: dgon-jd
 google_plus_id:
-linkedin_username:
+linkedin_username: gdmitrydpua
 bitcoin_url:
 paypal_url:
 flattr_button:
