@@ -7,6 +7,8 @@ featured: false
 comments: false
 category: iOS-Development
 tags: ios app ios8 objective-c
+modified: "2014-11-07"
+
 ---
 
 За несколько недель разработки проекта для iOS8, стало понятно, что на самом деле, с одной стороны Apple проделали громадную работу над почти всеми UI элементами, но с другой стороны - не все так радужно, как они рассказывали на WWDC. Советую сначала посмотреть [сессии по материалу](https://developer.apple.com/videos/wwdc/2014/) и почитать [документацию](https://developer.apple.com/Library/ios/documentation/UIKit/Reference/UITraitSet_ClassReference/index.html).
@@ -56,6 +58,7 @@ tags: ios app ios8 objective-c
 
 2) iPhone6+. Головная боль. Теоретически, судя по interface builder'у ориентация (regular:compact) предназначена для iPhone6+ в режиме landscape. Практически - дулю вам с маком. В **симуляторе** все равно приходит traitCollection с (compact,compact).
 **Выход:** Делать проверку на displayScale и при повороте и, если надо, делать нужный sizeClass.
+**Update**: Проект делался в XCode 6. В XCode 6.1 этого бага уже нет.
 
 ##UISplitView
 У нас в проекте стояла задача сделать выезжающее боковое меню. Недолго думая, я решил попробовать на практике новый UISplitViewController с переопределенны UITraitCollection. Фишка в том, что поведение UISplitViewController задано Apple так, что при horizontal class sizee == Compact, masterView недоступен и все происходит в navigationController. Мне же нужна была боковая панель всегда. Следуя WWDC сессии "Building adaptive apps with UIKit", я сделал дополнительную "подложку" - viewController, на котором лежал containerView и указывал на нужный SplitViewController, делая его childViewController.
@@ -68,7 +71,7 @@ tags: ios app ios8 objective-c
 }
 {% endhighlight %}
 
-Казалось, все круто! Но в detailView от SplitViewController приходил уже новый traitCollection и он отрабатывал не правильный дизайн (для iPad даже на iPhone). Пришлось переопределить обратно:
+Казалось, все круто! Но SplitViewController в развернутом режиме по умолчанию ставит левой части (W:Compact, H:Regular), а правой части (W:Regular, H:Regular). Поэтому контроллеры, которые лежали в дереве правой части отрабатывали "по-айпадовски" Пришлось переопределить обратно на оригинальный TraitCollection:
 
 {% highlight Obj-C %}
 -(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
