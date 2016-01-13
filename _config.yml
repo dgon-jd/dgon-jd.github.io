@@ -1,32 +1,5 @@
-# Site settings
-title:       DGon_JD
-email:       dmigonvl@gmail.com
-author:      Dmitry Goncharenko
-description: "Hungry for knowledge."
-baseurl:     ""
-url:         "http://dgon-jd.github.io"
-
-# Google analytics
-google_analytics:
-
-# Optional features
-animated:           false
-show_related_posts: false
-show_post_footers:  false
-
-# Social icons
-show_social_icons: true
-github_username: dgon-jd
-twitter_username: dgon-jd
-google_plus_id:
-linkedin_username: gdmitrydpua
-bitcoin_url:
-paypal_url:
-flattr_button:
-
-# Build settings
-markdown:     kramdown
-permalink:    pretty
-paginate:     3
-sass:
-  compressed: true
+# General Jekyll Config
+highlighter: pygments
+url: http://example.com
+lsi: false
+exclude: [LICENSE, CNAME, README.md, .gitignore, Gemfile, Gemfile.lock]
